@@ -31,6 +31,13 @@ Every section is labelled 即時 (live) or 快照 (snapshot) with its time. If a
 
 Opening the 衍生品 tab downloads about 2 MB (CoinGecko's full derivatives list) and pages through a day of OKX liquidation orders, so it takes longer than the other tabs.
 
+## Meanings and readings
+
+Every section has two extra parts:
+
+- **每項數據嘅含意** (what each figure means): a closed list under the section explaining each number in plain words.
+- **數字解讀** (reading of the numbers): a few sentences worked out from the figures on screen each time they load, such as how far the price is from its moving averages, whether funding is above or below the usual 0.01%, or which side most liquidations came from. They describe the data and never advise buying or selling.
+
 ## Files
 
 - `index.html` is the whole app, with the snapshot data inside it. To update the app, upload a new `index.html`; the link stays the same.

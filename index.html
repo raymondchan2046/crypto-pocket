@@ -108,6 +108,15 @@
   details.about { font-size: 13px; color: var(--fg-2); }
   details.about summary { cursor: pointer; color: var(--muted); width: fit-content; }
   details.about p { margin-top: 6px; max-width: 62em; }
+  .gloss { display: grid; gap: 8px; margin-top: 8px; max-width: 62em; }
+  .gloss dt { color: var(--fg); font-weight: 600; }
+  .insight { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); min-width: 0; }
+  .card .insight { background: var(--panel-2); }
+  .insight h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 13px; font-weight: 600; }
+  .insight h3 b { font-family: var(--font-num); }
+  .insight ul { display: grid; gap: 6px; list-style: none; font-size: 14px; line-height: 1.55; }
+  .insight li { position: relative; padding-left: 14px; text-wrap: pretty; }
+  .insight li::before { content: ""; position: absolute; left: 2px; top: .7em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 
   /* Watchlist: one row per coin; the picked coin opens its detail. On wide screens every coin is an open card. */
   .watch { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
@@ -278,6 +287,8 @@
         </article>
       </div>
       <p class="cap">每行嘅走勢線係近 90 日 Kraken 日線收市價。<span class="chip" data-set="daily"><i class="dot"></i><span>快照</span></span></p>
+      <div class="insight"><h3><b data-coin-name>BTC</b> 數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="price"></ul></div>
+      <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>現價</dt><dd>CoinGecko 綜合多間交易所成交價計出嘅美元價格。</dd></div><div><dt>24 小時、7 日、30 日</dt><dd>現價同嗰段時間之前比較嘅升跌百分比,用嚟睇短、中期走勢。</dd></div><div><dt>24 小時低位、高位</dt><dd>過去 24 小時入面最低同最高嘅價格,即係全日波幅嘅上下限。經 Claude 連接器查詢嗰陣冇呢兩項。</dd></div><div><dt>市值</dt><dd>現價乘以流通供應量,代表呢個幣嘅總規模。</dd></div><div><dt>距歷史高位</dt><dd>現價比歷來最高價低幾多。</dd></div><div><dt>最新日線收市價對 200 日線</dt><dd>200 日平均線係常用嘅長線趨勢分界。收市價喺線上面通常視為長線向上,喺線下面視為長線偏弱。</dd></div><div><dt>走勢線</dt><dd>近 90 日每日收市價嘅縮圖。</dd></div></dl></details>
 
       <div class="grid2">
         <div class="col">
@@ -291,7 +302,8 @@
               </dl>
             </div>
             <div class="stackbox" id="dom-bar"></div>
-            <details class="about"><summary>呢個比例點睇</summary><p>BTC 市值佔全部加密貨幣總市值嘅比例。比例上升,通常代表資金由山寨幣流返去 BTC。即時數字用 CoinGecko 俾嘅佔比;經 Claude 連接器查詢嗰陣,BTC、ETH 以外嘅幣用市值除以總市值計。</p></details>
+            <div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="dom"></ul></div>
+            <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>BTC 佔加密貨幣總市值(BTC 主導率)</dt><dd>BTC 市值除以全部加密貨幣嘅總市值。比例上升,通常代表資金由其他幣流返去 BTC;下降就相反。</dd></div><div><dt>加密貨幣總市值</dt><dd>全部加密貨幣嘅市值加埋,代表成個市場嘅規模。</dd></div><div><dt>24 小時變化</dt><dd>總市值同 24 小時前比較嘅升跌。</dd></div><div><dt>條形圖</dt><dd>市值最大嘅四個幣加 SOL 各自佔總市值幾多,其餘合併做「其他」。即時數字用 CoinGecko 俾嘅佔比;經 Claude 連接器查詢嗰陣,BTC、ETH 以外嘅幣用市值除以總市值計。</dd></div></dl></details>
           </div>
         </div>
         <div class="col">
@@ -309,7 +321,8 @@
             </dl>
             <h3>近一年走勢,虛線係 50</h3>
             <div class="chart" data-chart="fg"></div>
-            <details class="about"><summary>指數點計</summary><p>alternative.me 每日計一次,綜合價格波幅、成交動能、社交媒體熱度、BTC 主導率同搜尋趨勢,得出 0 至 100 分。分數愈低代表市場愈恐懼,愈高代表愈貪婪。</p></details>
+            <div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="fg"></ul></div>
+            <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>恐懼貪婪指數</dt><dd>alternative.me 每日計一次,綜合價格波幅、成交動能、社交媒體熱度、BTC 主導率同搜尋趨勢,得出 0 至 100 分。分數愈低代表市場愈恐懼,愈高代表愈貪婪。過去一年嘅數據入面,25 或以下標示為極度恐懼,26 至 46 恐懼,47 至 54 中性,55 至大約 75 貪婪,再高係極度貪婪。</dd></div><div><dt>昨日、7 日前、30 日前</dt><dd>嗰日嘅分數,用嚟睇情緒變化嘅方向同速度。</dd></div><div><dt>近一年走勢</dt><dd>過去一年每日嘅分數;虛線 50 係恐懼同貪婪嘅中間線。</dd></div></dl></details>
           </div>
         </div>
       </div>
@@ -336,7 +349,8 @@
             <tbody id="ma-rows"></tbody>
           </table>
         </div>
-        <details class="about"><summary>平均線點計</summary><p>簡單移動平均線(SMA)係最近 N 日收市價嘅平均。收市價用 Kraken 日線,以 UTC 計日,最新一日未收市。表入面比較嘅係最新一個日線收市價。</p></details>
+        <div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="ma"></ul></div>
+        <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>收市價</dt><dd>Kraken 每日(以 UTC 計日)最後嘅成交價。最新一日未收市,所以會跟住郁。</dd></div><div><dt>MA20、MA50、MA100、MA200</dt><dd>最近 20、50、100、200 日收市價嘅簡單平均(SMA)。日數愈少反應愈快,代表短線趨勢;MA200 代表長線趨勢。</dd></div><div><dt>收市價距離</dt><dd>最新收市價比嗰條平均線高或者低幾多個百分比。距離愈大,代表價格愈偏離嗰段時間嘅平均水平。</dd></div><div><dt>收市價位置</dt><dd>最新收市價喺嗰條線上面(高於)定下面(低於)。</dd></div></dl></details>
       </div>
     </section>
 
@@ -349,9 +363,10 @@
         <button class="tile" type="button" data-pick="SOL" aria-pressed="false"><span class="sym">SOL</span><span class="val" data-k="oi.SOL.total" data-f="usdc">—</span><span class="sub" data-k="oi.SOL.fr" data-f="fr">—</span></button>
       </div>
       <p class="cap">大字係十間交易所永續合約合計 OI,細字係 Binance USDT 永續合約嘅當期資金費率。</p>
+      <div class="insight"><h3><b data-coin-name>BTC</b> 數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="oi"></ul></div>
       <div class="grid2">
-        <div class="card"><div class="card-head"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅未平倉合約,近 180 日</h3><span class="chip" data-set="oi_history"><i class="dot"></i><span>快照</span></span></div><div class="chart" data-chart="oi"></div></div>
-        <div class="card"><div class="card-head"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅資金費率,每 8 小時結算,近 100 日</h3><span class="chip" data-set="funding_history"><i class="dot"></i><span>快照</span></span></div><div class="chart" data-chart="fr"></div></div>
+        <div class="card"><div class="card-head"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅未平倉合約,近 180 日</h3><span class="chip" data-set="oi_history"><i class="dot"></i><span>快照</span></span></div><div class="chart" data-chart="oi"></div><div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="oih"></ul></div></div>
+        <div class="card"><div class="card-head"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅資金費率,每 8 小時結算,近 100 日</h3><span class="chip" data-set="funding_history"><i class="dot"></i><span>快照</span></span></div><div class="chart" data-chart="fr"></div><div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="fr"></ul></div></div>
       </div>
       <div class="card">
         <h3><b data-coin-name>BTC</b> 各交易所</h3>
@@ -361,7 +376,7 @@
             <tbody id="venue-rows"></tbody>
           </table>
         </div>
-        <details class="about"><summary>OI 同資金費率點睇</summary><p>OI 係市場上未平倉永續合約嘅總值。資金費率係多空雙方定期互相支付嘅費用,正數代表多頭俾錢空頭。合計只計 Binance、OKX、Bybit、Gate、MEXC、Bitget、Hyperliquid、Deribit、HTX、BingX 十間交易所。每間交易所嘅資金費率取 OI 最大嗰張合約;多數每 8 小時結算一次,Hyperliquid 每小時結算,唔可以直接比較。OKX 走勢圖嘅 OI 包括期貨同永續合約。</p></details>
+        <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>未平倉合約(OI)</dt><dd>市場上未平倉嘅永續合約總值。OI 上升代表有新嘅槓桿倉位入場,下降代表平倉離場。合計只計 Binance、OKX、Bybit、Gate、MEXC、Bitget、Hyperliquid、Deribit、HTX、BingX 十間交易所。</dd></div><div><dt>資金費率</dt><dd>永續合約多空雙方定期互相支付嘅費用,用嚟令合約價貼近現貨價。正數代表多頭俾錢空頭,即係做多嘅需求較大;負數相反。多數交易所每 8 小時結算一次,預設基準大約係 0.01%;Hyperliquid 每小時結算,唔可以直接比較。</dd></div><div><dt>各交易所表</dt><dd>每間交易所所有永續合約嘅 OI 加埋;資金費率取 OI 最大嗰張合約,即係「參考合約」。</dd></div><div><dt>OKX 未平倉合約走勢</dt><dd>OKX 期貨同永續合約每日嘅 OI,用嚟睇槓桿倉位增加定減少。</dd></div><div><dt>OKX 資金費率走勢</dt><dd>每次結算嘅實際費率。長期正數代表做多需求持續,轉負代表市場偏淡或者對沖需求大。</dd></div></dl></details>
       </div>
 
       <div class="sec-head"><h2>爆倉,OKX 最近 24 小時</h2><span class="chip" data-set="liquidations"><i class="dot"></i><span>快照</span></span></div>
@@ -377,7 +392,8 @@
         <p class="cap" id="liq-partial" hidden></p>
         <ul class="legend"><li><i class="box b1"></i>多單爆倉</li><li><i class="box b2"></i>空單爆倉</li></ul>
         <div class="chart" data-chart="liq"></div>
-        <details class="about"><summary>爆倉數字嘅範圍</summary><p>爆倉係槓桿倉位保證金唔夠,被交易所強制平倉。呢度只計 OKX 嘅 USDT 本位永續合約,統計最近 24 小時(快照就係截至快照時間嘅 24 小時),唔係全市場數字。</p></details>
+        <div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="liq"></ul></div>
+        <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>爆倉</dt><dd>槓桿倉位保證金唔夠,被交易所強制平倉。</dd></div><div><dt>多單爆倉、空單爆倉</dt><dd>被強制平倉嘅做多倉同做空倉嘅金額。價格急跌嗰陣多數係多單爆倉,急升嗰陣多數係空單爆倉。</dd></div><div><dt>多單佔比</dt><dd>多單爆倉佔全部爆倉金額嘅百分比。</dd></div><div><dt>每小時爆倉金額</dt><dd>睇爆倉集中喺邊個時段。</dd></div><div><dt>範圍</dt><dd>只計 OKX 嘅 USDT 本位永續合約,統計最近 24 小時(快照就係截至快照時間嘅 24 小時),唔係全市場數字。</dd></div></dl></details>
       </div>
     </section>
 
@@ -397,7 +413,8 @@
         </dl>
         <ul class="legend"><li><i class="box b1"></i>淨流入</li><li><i class="box b2"></i>淨流出</li></ul>
         <div class="chart" data-chart="etf"></div>
-        <details class="about"><summary>淨流量點睇</summary><p>現貨 ETF 每個交易日嘅淨流量。正數係淨申購,即係有新資金流入;負數係淨贖回。數據嚟自 CoinMarketCap,當日數字通常要等美國收市之後先有。</p></details>
+        <div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="etf"></ul></div>
+        <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>淨流量</dt><dd>現貨 ETF 每個交易日嘅申購減贖回。正數(淨流入)代表有新資金經 ETF 買入,負數(淨流出)代表資金贖回離場。</dd></div><div><dt>最新交易日</dt><dd>最近一個有數據嘅美國交易日。當日數字通常要等美國收市之後先有。</dd></div><div><dt>近 5 個交易日、近 90 日</dt><dd>呢段時間每日淨流量加埋,用嚟睇短線同較長線嘅資金方向。</dd></div><div><dt>來源</dt><dd>CoinMarketCap。</dd></div></dl></details>
       </div>
     </section>
 
@@ -420,7 +437,9 @@
             </tbody>
           </table>
         </div>
-        <details class="about"><summary>指標同來源</summary><p>MVRV 係市值除以已實現市值(每個幣按最後一次鏈上轉手嘅價錢計)。高過 1 代表持有人平均有賬面利潤,低過 1 代表平均蝕緊。活躍地址、交易筆數同 MVRV 嚟自 Coin Metrics 免費數據,只有 BTC 同 ETH,所以 SOL 嗰三格係空嘅。其餘四項嚟自 DefiLlama。</p></details>
+        <div class="insight"><h3><b data-coin-name>BTC</b> 鏈上活動解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="chain"></ul></div>
+        <div class="insight"><h3>三條鏈比較<span class="cap">按最新數字自動計出</span></h3><ul data-insight="defi"></ul></div>
+        <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>活躍地址(日)</dt><dd>當日有發送或者接收交易嘅唔同地址數目,反映用緊條鏈嘅人數。</dd></div><div><dt>交易筆數(日)</dt><dd>當日鏈上交易嘅數目,反映使用量。</dd></div><div><dt>MVRV</dt><dd>市值除以已實現市值(每個幣按最後一次鏈上轉手嘅價錢計)。高過 1 代表持有人平均有賬面利潤,低過 1 代表平均蝕緊。</dd></div><div><dt>鏈上手續費(24 小時)</dt><dd>用戶俾條鏈本身嘅交易費,唔計鏈上應用收嘅費用,反映區塊空間嘅需求。</dd></div><div><dt>DeFi 鎖倉量(TVL)</dt><dd>存放喺呢條鏈 DeFi 應用入面嘅資產總值。</dd></div><div><dt>穩定幣供應</dt><dd>呢條鏈上流通嘅美元穩定幣總額,即係鏈上可以用嘅美元流動性。</dd></div><div><dt>DEX 成交額(24 小時)</dt><dd>鏈上去中心化交易所嘅成交金額。</dd></div><div><dt>來源</dt><dd>活躍地址、交易筆數同 MVRV 嚟自 Coin Metrics 免費數據,只有 BTC 同 ETH,所以 SOL 嗰三格係空嘅。其餘四項嚟自 DefiLlama。</dd></div></dl></details>
       </div>
       <div class="grid2" id="chain-charts">
         <div class="card"><h3><b data-coin-name>BTC</b> 每日活躍地址,近一年</h3><div class="chart" data-chart="aa"></div></div>
@@ -437,6 +456,8 @@
           <div><dt>全網算力</dt><dd><span data-k="net.hash" data-f="x1">—</span> EH/s</dd></div>
           <div><dt>下次難度調整(預計)</dt><dd><span data-k="net.adj" data-f="pct">—</span>,仲有 <span data-k="net.blocks" data-f="int">—</span> 個區塊</dd></div>
         </dl>
+        <div class="insight"><h3>數字解讀<span class="cap">按最新數字自動計出</span></h3><ul data-insight="net"></ul></div>
+        <details class="about"><summary>每項數據嘅含意</summary><dl class="gloss"><div><dt>區塊高度</dt><dd>Bitcoin 區塊鏈到而家為止嘅區塊數目,大約每 10 分鐘加一個。</dd></div><div><dt>待確認交易</dt><dd>已經廣播但未被打包入區塊嘅交易數目(mempool)。愈多代表網絡愈擠。</dd></div><div><dt>手續費(sat/vB)</dt><dd>想喺下個區塊或者一小時內確認,每個虛擬位元組要俾幾多聰。愈高代表愈多人爭區塊空間。</dd></div><div><dt>全網算力</dt><dd>所有礦工合計嘅計算力(EH/s)。愈高代表攻擊網絡嘅成本愈高。</dd></div><div><dt>下次難度調整</dt><dd>Bitcoin 每 2,016 個區塊調整一次挖礦難度,令出塊時間維持大約 10 分鐘。預計上調代表算力增加咗,下調代表算力減少咗。</dd></div><div><dt>來源</dt><dd>mempool.space。</dd></div></dl></details>
       </div>
     </section>
   </main>
@@ -970,6 +991,201 @@
     if (now) { const dot = el('i'); dot.style.left = now.value + '%'; meter.append(dot); meter.setAttribute('aria-label', '恐懼貪婪指數 ' + now.value + ',滿分 100'); }
   }
 
+  // ---- readings: sentences worked out from the figures on screen. They describe the data; they never advise. ----
+  const mean = (list) => list.reduce((s, x) => s + x, 0) / list.length;
+  const p1 = (x) => abs(x, 1) + '%';
+  const times = (x) => (x >= 10 ? abs(x, 0) : abs(x, 1)) + ' 倍';
+  const priceRow = (coin) => priceSrc().rows.find((r) => r.symbol === coin);
+  const READ = {
+    price() {
+      const coin = state.coin, p = priceRow(coin), out = [];
+      if (!p) return out;
+      const d1 = p.chg_24h_pct, d7 = p.chg_7d_pct, d30 = p.chg_30d_pct;
+      if (d1 != null && d7 != null && d30 != null) {
+        const read = d1 < 0 && d7 < 0 && d30 < 0 ? '三個時段都跌,短中期走勢向下'
+          : d1 > 0 && d7 > 0 && d30 > 0 ? '三個時段都升,短中期走勢向上'
+          : d1 > 0 && d7 < 0 && d30 < 0 ? '24 小時回升,但 7 日同 30 日仍然係跌,暫時只算反彈'
+          : d1 < 0 && d7 > 0 && d30 > 0 ? '24 小時回落,但 7 日同 30 日仍然係升,暫時只算回調'
+          : d7 > 0 && d30 < 0 ? '近 7 日回升,但 30 日計仍然係跌'
+          : d7 < 0 && d30 > 0 ? '近 7 日轉跌,但 30 日計仍然係升'
+          : '各時段嘅方向唔一致';
+        out.push(`${coin} 24 小時 ${FMT.pct(d1)}、7 日 ${FMT.pct(d7)}、30 日 ${FMT.pct(d30)}:${read}。`);
+      }
+      if (p.low_24h != null && p.high_24h != null && p.high_24h > p.low_24h) {
+        const pos = (p.price - p.low_24h) / (p.high_24h - p.low_24h);
+        out.push(`現價喺 24 小時波幅(${FMT.usd(p.low_24h)} 至 ${FMT.usd(p.high_24h)})入面${pos < 1 / 3 ? '貼近低位' : pos > 2 / 3 ? '貼近高位' : '喺中間位置'}。`);
+      }
+      if (p.ath_chg_pct != null && p.ath_chg_pct < 0 && p.ath_chg_pct > -100) {
+        out.push(`現價比歷史高位低 ${p1(p.ath_chg_pct)},要再升 ${abs((1 / (1 + p.ath_chg_pct / 100) - 1) * 100, 0)}% 先返到高位。`);
+      }
+      const m200 = (maTable[coin] || []).find((r) => r.label === 'MA200');
+      if (m200) out.push(`最新日線收市價${m200.side} 200 日線 ${p1(m200.dist_pct)},長線趨勢指標偏${m200.side === '高於' ? '強' : '弱'}。`);
+      return out;
+    },
+    dom() {
+      const g = globalSrc(), out = [], share = (a) => { const r = g.dom.find((x) => x.asset === a); return r ? r.share_pct : null; };
+      const btc = share('BTC'), eth = share('ETH');
+      if (btc == null) return out;
+      out.push(`BTC 佔加密貨幣總市值 ${FMT.share(btc)}` + (eth != null ? `,ETH 佔 ${FMT.share(eth)},兩者合共 ${FMT.share(btc + eth)}` : '') + '。'
+        + (btc >= 55 ? 'BTC 佔比過半而且偏高,資金較集中喺 BTC。' : btc >= 45 ? 'BTC 佔大約一半,同其他幣大致平分。' : 'BTC 佔比唔夠一半,資金較分散喺其他幣。'));
+      const m = g.market.mcap_chg_24h_pct, b = (priceRow('BTC') || {}).chg_24h_pct;
+      if (m != null && b != null) {
+        const gap = b - m;
+        out.push(`24 小時計,BTC ${FMT.pct(b)},加密貨幣總市值 ${FMT.pct(m)}:` + (gap > 0.5 ? 'BTC 表現好過大市,即係其他幣整體表現較差,BTC 佔比傾向上升' : gap < -0.5 ? 'BTC 表現差過大市,即係其他幣整體表現較好,BTC 佔比傾向下降' : 'BTC 同大市表現差唔多,佔比變化唔大') + '。');
+      }
+      return out;
+    },
+    fg() {
+      const now = fgRows[0], out = [];
+      if (!now) return out;
+      out.push(`最新讀數 ${FMT.int(now.value)} 分(${FMT.md(now.date)}),屬於${now.label_zh}。`);
+      const d30 = fgRows[30];
+      if (d30) {
+        const diff = now.value - d30.value;
+        out.push(`比 30 日前嘅 ${FMT.int(d30.value)} 分${diff === 0 ? '冇變' : (diff > 0 ? '高 ' : '低 ') + abs(diff, 0) + ' 分'}` + (Math.abs(diff) >= 15 ? `,情緒一個月內明顯轉${diff > 0 ? '樂觀' : '悲觀'}` : ',情緒變化唔大') + '。');
+      }
+      const vals = fgRows.map((r) => r.value);
+      if (vals.length >= 180) {
+        const lower = vals.filter((v) => v < now.value).length / vals.length * 100, higher = vals.filter((v) => v > now.value).length / vals.length * 100;
+        out.push(`過去一年(${vals.length} 日)嘅分數由 ${Math.min(...vals)} 至 ${Math.max(...vals)};` + (lower <= higher ? `有 ${p1(lower)} 嘅日子比最新讀數低` : `有 ${p1(higher)} 嘅日子比最新讀數高`) + '。');
+      }
+      if (now.value <= 25) out.push('極度恐懼代表市場普遍悲觀,通常喺急跌期間出現。佢反映嘅係情緒,唔代表價格會即刻轉向。');
+      else if (now.value >= 76) out.push('極度貪婪代表市場普遍樂觀,通常喺急升期間出現。佢反映嘅係情緒,唔代表價格會即刻轉向。');
+      return out;
+    },
+    ma() {
+      const coin = state.coin, t = maTable[coin] || [], out = [];
+      if (!t.length) return out;
+      const above = t.filter((r) => r.side === '高於').map((r) => r.label), below = t.filter((r) => r.side === '低於').map((r) => r.label);
+      if (!above.length) out.push(`${coin} 最新收市價低於全部 ${t.length} 條平均線(${below.join('、')}):短、中、長線趨勢都向下。`);
+      else if (!below.length) out.push(`${coin} 最新收市價高於全部 ${t.length} 條平均線(${above.join('、')}):短、中、長線趨勢都向上。`);
+      else out.push(`${coin} 最新收市價高於 ${above.join('、')},低於 ${below.join('、')}:` + (above.includes('MA20') && below.includes('MA200') ? '短線回升,但長線仍然偏弱' : above.includes('MA200') && below.includes('MA20') ? '短線回落,但長線仍然向上' : '各條線嘅方向唔一致') + '。');
+      const m50 = t.find((r) => r.label === 'MA50'), m200 = t.find((r) => r.label === 'MA200');
+      if (m50 && m200) out.push(m50.ma >= m200.ma
+        ? `MA50(${FMT.usd(m50.ma)})高過 MA200(${FMT.usd(m200.ma)}),即係俗稱「黃金交叉」之後嘅狀態:中期平均價仍然高過長期平均價。`
+        : `MA50(${FMT.usd(m50.ma)})低過 MA200(${FMT.usd(m200.ma)}),即係俗稱「死亡交叉」之後嘅狀態:中期平均價低過長期平均價。`);
+      const far = t.reduce((a, b) => (Math.abs(b.dist_pct) > Math.abs(a.dist_pct) ? b : a));
+      out.push(`離 ${far.label} 最遠,${far.dist_pct >= 0 ? '高' : '低'} ${p1(far.dist_pct)}。距離愈大,代表價格愈偏離嗰段時間嘅平均水平。`);
+      return out;
+    },
+    oi() {
+      const coin = state.coin, vs = venues[coin] || [], out = [];
+      if (!vs.length) return out;
+      const total = vs.reduce((s, r) => s + r.oi_usd, 0), top = vs[0];
+      out.push(`${coin} 十間交易所永續合約合計 OI ${FMT.usdc(total)},最大係 ${top.exchange},佔 ${p1(top.oi_usd / total * 100)}。`);
+      const ratios = COINS.map((c) => { const p = priceRow(c), v = venues[c] || []; return p && p.market_cap_usd ? [c, v.reduce((s, r) => s + r.oi_usd, 0) / p.market_cap_usd * 100] : null; }).filter(Boolean);
+      if (ratios.length === COINS.length) out.push('OI 相當於市值嘅比例:' + ratios.map(([c, r]) => `${c} ${p1(r)}`).join('、') + '。比例愈高,代表槓桿倉位相對個幣嘅規模愈大。');
+      const f = STATIC['oi.' + coin + '.fr'];
+      if (f != null) {
+        const cls = f > 0.03 ? '明顯高過 0.01% 嘅常見基準,做多嘅槓桿需求好熱' : f > 0.0125 ? '高過 0.01% 嘅常見基準,做多需求偏強' : f >= 0.0075 ? '貼近 0.01% 嘅常見基準,屬於正常水平'
+          : f >= 0 ? '正數但低過 0.01% 嘅常見基準,做多需求偏淡' : '負數,即係空頭俾錢多頭,做空或者對沖嘅需求大過做多';
+        out.push(`Binance ${coin}USDT 當期資金費率 ${FMT.fr(f)}:${cls}。照呢個費率每 8 小時收一次計,折合年率約 ${FMT.pct(f * 3 * 365).replace(/^\+/, '')}。`);
+      }
+      const pos = vs.filter((r) => r.funding_pct > 0).length, neg = vs.filter((r) => r.funding_pct < 0).length;
+      out.push(`${vs.length} 間交易所入面,${pos} 間嘅資金費率係正數,${neg} 間係負數。`);
+      return out;
+    },
+    oih() {
+      const coin = state.coin, rows = DATA.oi_history.filter((r) => r.symbol === coin).sort(byDate), out = [];
+      if (rows.length < 31) return out;
+      const last = rows[rows.length - 1], prev = rows[rows.length - 31], chg = (last.oi_usd / prev.oi_usd - 1) * 100;
+      const closes = new Map(DATA.daily.filter((r) => r.symbol === coin).map((r) => [r.date, r.close]));
+      const c1 = closes.get(last.date), c0 = closes.get(prev.date), px = c1 && c0 ? (c1 / c0 - 1) * 100 : null;
+      let line = `截至 ${FMT.md(last.date)},${coin} 喺 OKX 嘅 OI 係 ${FMT.usdc(last.oi_usd)},比 30 日前${chg >= 0 ? '高' : '低'} ${p1(chg)}`;
+      if (px != null) {
+        line += `,同期收市價 ${FMT.pct(px)}:` + (px < 0 && chg > 0 ? '價跌而 OI 升,通常解讀為跌市入面有新倉位加入' : px < 0 ? '價同 OI 一齊跌,通常解讀為槓桿倉位離場' : chg > 0 ? '價同 OI 一齊升,通常解讀為升勢有新嘅槓桿資金跟進' : '價升而 OI 跌,通常解讀為升勢主要由平倉推動');
+      }
+      out.push(line + '。');
+      const hi = rows.reduce((a, b) => (b.oi_usd > a.oi_usd ? b : a));
+      out.push(`近 ${rows.length} 日最高係 ${FMT.md(hi.date)}嘅 ${FMT.usdc(hi.oi_usd)},最新數字係嗰個高位嘅 ${p1(last.oi_usd / hi.oi_usd * 100)}。`);
+      return out;
+    },
+    fr() {
+      const coin = state.coin, rows = DATA.funding_history.filter((r) => r.symbol === coin).sort((a, b) => (a.time < b.time ? -1 : 1)), out = [];
+      if (rows.length < 30) return out;
+      const m30 = rows.slice(-90), m7 = rows.slice(-21), a30 = mean(m30.map((r) => r.funding_pct)), a7 = mean(m7.map((r) => r.funding_pct));
+      const pos = m30.filter((r) => r.funding_pct > 0).length / m30.length * 100;
+      out.push(`${coin} 喺 OKX 最近 ${m30.length} 次結算(約 30 日)平均 ${FMT.fr(a30)},${p1(pos)} 嘅結算係正數:` + (pos >= 70 ? '大部分時間係多頭付費' : pos <= 30 ? '大部分時間係空頭付費' : '多頭同空頭付費嘅時間差唔多') + '。');
+      out.push(`最近 ${m7.length} 次結算(約 7 日)平均 ${FMT.fr(a7)},` + (a7 > a30 + 0.002 ? '高過 30 日平均,做多需求升緊' : a7 < a30 - 0.002 ? '低過 30 日平均,做多需求降溫緊' : '同 30 日平均差唔多') + '。');
+      return out;
+    },
+    liq() {
+      const coin = state.coin, rows = DATA.liquidations.filter((r) => r.symbol === coin).sort((a, b) => (a.hour < b.hour ? -1 : 1));
+      if (!rows.length) return [];
+      const long = rows.reduce((s, r) => s + r.long_usd, 0), short = rows.reduce((s, r) => s + r.short_usd, 0), total = long + short;
+      if (!total) return [`統計期內 ${coin} 喺 OKX 冇爆倉紀錄。`];
+      const share = long / total * 100, out = [];
+      out.push(`統計期內 ${coin} 喺 OKX 爆倉 ${FMT.usdc(total)},${p1(share)} 係多單:` + (share >= 65 ? '被強制平倉嘅主要係做多嘅槓桿倉,通常喺價格下跌嗰陣出現' : share <= 35 ? '被強制平倉嘅主要係做空嘅槓桿倉,通常喺價格上升嗰陣出現' : '多空兩邊嘅爆倉金額差唔多,價格上落都有掃到槓桿倉') + '。');
+      const peak = rows.reduce((a, b) => (b.long_usd + b.short_usd > a.long_usd + a.short_usd ? b : a)), pk = peak.long_usd + peak.short_usd;
+      out.push(`爆倉最集中係香港時間 ${hktFmt.format(new Date(peak.hour))} 起嗰個鐘,有 ${FMT.usdc(pk)},佔全部嘅 ${p1(pk / total * 100)}。`);
+      return out;
+    },
+    etf() {
+      const coin = state.coin, rows = DATA.etf_flows.filter((r) => r.symbol === coin).sort(byDate), out = [];
+      if (!rows.length) return out;
+      const last = rows[rows.length - 1], dir = (x) => (x > 0 ? '淨流入' : '淨流出'), sum = (list) => list.reduce((s, r) => s + r.net_flow_usd, 0);
+      if (last.net_flow_usd === 0) out.push(`最新交易日(${FMT.md(last.date)})${coin} 現貨 ETF 冇淨流入亦冇淨流出。`);
+      else {
+        let streak = 1;
+        while (streak < rows.length && rows[rows.length - 1 - streak].net_flow_usd !== 0 && (rows[rows.length - 1 - streak].net_flow_usd > 0) === (last.net_flow_usd > 0)) streak += 1;
+        out.push(`最新交易日(${FMT.md(last.date)})${coin} 現貨 ETF ${dir(last.net_flow_usd)} ${FMT.usdc(Math.abs(last.net_flow_usd))}` + (streak >= 2 ? `,已經連續 ${streak} 個交易日${dir(last.net_flow_usd)}` : '') + '。');
+      }
+      const s5 = sum(rows.slice(-5)), s90 = sum(rows);
+      out.push(`近 5 個交易日合計 ${FMT.usdcs(s5)},近 90 日合計 ${FMT.usdcs(s90)}:` + (s5 < 0 && s90 > 0 ? '較長線累計仍然係流入,但近期轉為流出' : s5 > 0 && s90 < 0 ? '較長線累計係流出,但近期轉為流入' : s5 >= 0 && s90 >= 0 ? '短線同較長線都係淨流入' : '短線同較長線都係淨流出') + '。');
+      const inflow = rows.filter((r) => r.net_flow_usd > 0).length, outflow = rows.filter((r) => r.net_flow_usd < 0).length;
+      out.push(`呢 ${rows.length} 個交易日入面,${inflow} 日淨流入,${outflow} 日淨流出` + (rows.length - inflow - outflow ? `,${rows.length - inflow - outflow} 日持平` : '') + '。');
+      return out;
+    },
+    chain() {
+      const coin = state.coin;
+      const rows = DATA.chain_daily.filter((r) => r.symbol === coin && r.active_addresses != null && r.tx_count != null && r.mvrv != null).sort(byDate);
+      if (rows.length < 31) return coin === 'SOL' ? ['Coin Metrics 免費數據冇 SOL 嘅活躍地址、交易筆數同 MVRV,所以呢度冇解讀。'] : [];
+      const last = rows[rows.length - 1], m = last.mvrv, out = [];
+      out.push(`${coin} MVRV ${FMT.x2(m)}:` + (m < 1 ? `持有人平均賬面蝕緊 ${p1((1 - m) * 100)}。歷史上 MVRV 低過 1 多數喺市場低迷期出現` : m < 2 ? `持有人平均有 ${p1((m - 1) * 100)} 賬面利潤,屬於溫和水平` : m < 3.5 ? `持有人平均有 ${p1((m - 1) * 100)} 賬面利潤,利潤偏高,獲利回吐嘅誘因較大` : `持有人平均有 ${p1((m - 1) * 100)} 賬面利潤,賬面利潤好高`) + '。');
+      const ms = rows.map((r) => r.mvrv), higher = ms.filter((x) => x > m).length / ms.length * 100;
+      out.push(`過去一年 MVRV 由 ${FMT.x2(Math.min(...ms))} 至 ${FMT.x2(Math.max(...ms))},有 ${p1(higher)} 嘅日子比最新數字高。`);
+      const prev = rows.slice(-31, -1), aa = mean(prev.map((r) => r.active_addresses)), tx = mean(prev.map((r) => r.tx_count));
+      const da = (last.active_addresses / aa - 1) * 100, dt = (last.tx_count / tx - 1) * 100;
+      const word = (d) => (Math.abs(d) < 5 ? '同 30 日平均差唔多' : `比 30 日平均${d > 0 ? '高' : '低'} ${p1(d)}`);
+      out.push(`${FMT.md(last.date)}嘅活躍地址 ${FMT.int(last.active_addresses)},${word(da)};交易筆數 ${FMT.int(last.tx_count)},${word(dt)}。` + (da > 5 && dt > 5 ? '鏈上使用量升緊。' : da < -5 && dt < -5 ? '鏈上使用量跌緊。' : ''));
+      return out;
+    },
+    defi() {
+      const rows = COINS.map((c) => DATA.chain_defi.find((r) => r.symbol === c)).filter(Boolean), out = [];
+      const by = (f) => rows.filter((r) => r[f] != null).sort((a, b) => b[f] - a[f]), nm = (r) => CHAIN[r.symbol];
+      const tvl = by('tvl_usd');
+      if (tvl.length >= 2 && tvl[1].tvl_usd > 0) out.push(`DeFi 鎖倉量最大係 ${nm(tvl[0])}(${FMT.usdc(tvl[0].tvl_usd)}),係第二位 ${nm(tvl[1])}(${FMT.usdc(tvl[1].tvl_usd)})嘅 ${times(tvl[0].tvl_usd / tvl[1].tvl_usd)}。`);
+      const fees = by('fees_24h_usd');
+      if (fees.length >= 2) out.push(`24 小時鏈上手續費最高係 ${nm(fees[0])}(${FMT.usdc(fees[0].fees_24h_usd)}),即係佢嘅區塊空間需求最大;` + fees.slice(1).map((r) => `${nm(r)} ${FMT.usdc(r.fees_24h_usd)}`).join('、') + '。');
+      const turn = rows.filter((r) => r.tvl_usd > 0 && r.dex_volume_24h_usd != null).map((r) => [nm(r), r.dex_volume_24h_usd / r.tvl_usd * 100]).sort((a, b) => b[1] - a[1]);
+      if (turn.length >= 2) out.push('24 小時 DEX 成交額相當於 TVL 嘅比例:' + turn.map(([n, x]) => `${n} ${abs(x, x < 0.1 ? 2 : 1)}%`).join('、') + '。比例愈高,代表鏈上資金周轉愈快。');
+      const st = by('stablecoins_usd');
+      if (st.length >= 2 && st[1].stablecoins_usd > 0) out.push(`穩定幣供應最多係 ${nm(st[0])}(${FMT.usdc(st[0].stablecoins_usd)}),係 ${nm(st[1])}(${FMT.usdc(st[1].stablecoins_usd)})嘅 ${times(st[0].stablecoins_usd / st[1].stablecoins_usd)}。穩定幣愈多,鏈上可以用嚟交易同借貸嘅美元流動性愈大。`);
+      return out;
+    },
+    net() {
+      const n = DATA.btc_network[0], out = [];
+      if (!n) return out;
+      const f = n.fee_fast_satvb, h = n.fee_1h_satvb;
+      if (f != null) out.push((n.mempool_tx != null ? `有 ${FMT.int(n.mempool_tx)} 筆交易等緊確認;` : '') + `想喺下個區塊確認要 ${FMT.int(f)} sat/vB` + (h != null ? `,一小時內確認要 ${FMT.int(h)} sat/vB` : '') + ':'
+        + (f <= 5 ? '網絡唔擠,手續費處於低水平' : f <= 30 ? '網絡使用量屬於正常' : f <= 100 ? '網絡擠塞,手續費偏高' : '網絡非常擠塞,手續費好高') + '。');
+      const adj = n.next_adjust_pct, left = n.next_adjust_blocks;
+      if (adj != null) out.push(`下次難度調整預計 ${FMT.pct(adj)}` + (left != null ? `,仲有 ${FMT.int(left)} 個區塊(大約 ${left < 144 ? abs(left / 6, left < 60 ? 1 : 0) + ' 小時' : abs(left / 144, 1) + ' 日'})` : '') + ':'
+        + (adj < -1 ? '呢個週期出塊慢過 10 分鐘目標,即係全網算力比上次調整嗰陣少咗' : adj > 1 ? '呢個週期出塊快過 10 分鐘目標,即係全網算力比上次調整嗰陣多咗' : '出塊速度貼近 10 分鐘目標,算力平穩') + '。');
+      return out;
+    },
+  };
+  function renderReadings() {
+    for (const list of $$('[data-insight]')) {
+      const view = list.closest('[data-view]');
+      if (view && view.hidden) continue;
+      let lines = [];
+      try { lines = READ[list.dataset.insight]() || []; } catch (e) { lines = []; }
+      list.replaceChildren(...lines.map((s) => el('li', '', s)));
+      list.parentElement.hidden = !lines.length;
+    }
+  }
+
   // ---- controls ----------------------------------------------------------------
   function renderControls() {
     for (const b of $$('[data-pick]')) {
@@ -983,7 +1199,7 @@
     const sol = state.coin === 'SOL';
     $('#chain-charts').hidden = sol; $('#chain-sol-note').hidden = !sol;
   }
-  function render() { renderControls(); bind(); renderStatus(); renderLists(); drawCharts(); ensureSets(false); }
+  function render() { renderControls(); bind(); renderStatus(); renderLists(); renderReadings(); drawCharts(); ensureSets(false); }
   let queued = false;
   const queueRender = () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; render(); }); };
 
@@ -1247,7 +1463,7 @@
     const st = setState[id] || (setState[id] = {live: false, got: 0, loading: false, failed: false, tried: 0});
     const now = Date.now();
     if (st.loading) return;
-    if (force ? now - st.tried < 10000 : (st.live && now - st.got < TTL[key] * 60000) || (st.failed && now - st.tried < 120000)) return;
+    if (force ? now - st.tried < 10000 : (st.live && now - st.got < TTL[key] * 60000) || (st.failed && now - st.tried < 50000)) return;
     st.loading = true; st.tried = now;
     LOADERS[key](coin).then((rows) => {
       DATA[key] = coin ? DATA[key].filter((r) => r.symbol !== coin).concat(rows) : rows;
