@@ -8,21 +8,28 @@ On a phone, choose "Add to Home Screen" in the browser menu to open it full scre
 
 ## What is live and what is a snapshot
 
-**Live**, loaded from [CoinGecko](https://www.coingecko.com/)'s public API each time the page opens and about once a minute while it stays open (no account or API key needed):
+**Live**, loaded straight from each source's public API (no account or API key needed). Prices refresh about once a minute; the rest load when you open their tab:
 
-- price, 24-hour, 7-day and 30-day change, 24-hour high and low, market cap, distance from all-time high
-- total crypto market cap and each coin's share of it
+| Section | Source |
+|---|---|
+| Price, changes, 24-hour high and low, market cap, total market cap, market share | [CoinGecko](https://www.coingecko.com/) |
+| Daily closes, sparklines and moving averages | Kraken |
+| Fear & Greed Index | alternative.me |
+| Open interest and funding rate across ten exchanges | CoinGecko derivatives |
+| Funding-rate history | OKX |
+| Liquidations, last 24 hours | OKX |
+| Active addresses, transactions, MVRV | Coin Metrics community data |
+| Chain fees, TVL, stablecoin supply, DEX volume | DefiLlama |
+| Bitcoin network | mempool.space |
 
-**Snapshot** taken on 13 November 2026 (Hong Kong time) and stored inside `index.html`:
+**Snapshot** taken on 13 November 2026 (Hong Kong time) and stored inside `index.html`, because these two sources do not allow calls from a web page:
 
-- daily closes and moving averages (Kraken)
-- Fear & Greed Index (alternative.me)
-- open interest and funding rates (CoinGecko derivatives, OKX)
-- liquidations (OKX)
+- OKX open-interest history chart
 - spot ETF net flows (CoinMarketCap)
-- on-chain data (Coin Metrics, DefiLlama, mempool.space)
 
-Every section is labelled 即時 (live) or 快照 (snapshot) with its time. If CoinGecko cannot be reached, the live numbers fall back to the snapshot and the page says so.
+Every section is labelled 即時 (live) or 快照 (snapshot) with its time. If a source cannot be reached, that section falls back to the snapshot and its label says so.
+
+Opening the 衍生品 tab downloads about 2 MB (CoinGecko's full derivatives list) and pages through a day of OKX liquidation orders, so it takes longer than the other tabs.
 
 ## Files
 

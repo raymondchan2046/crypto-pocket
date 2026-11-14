@@ -91,6 +91,8 @@
   .sec-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; margin-top: 6px; }
   .sec-head h2 { font-size: 16px; font-weight: 600; text-wrap: balance; }
   .sec-head h2 b { font-family: var(--font-num); }
+  .card-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+  .cap .chip { margin-left: 6px; vertical-align: baseline; }
   .chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border: 1px solid var(--line); border-radius: 999px; font-size: 12px; color: var(--fg-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
   .card h3 { font-size: 14px; font-weight: 600; text-wrap: balance; }
@@ -239,7 +241,7 @@
             <div class="kv-row" data-hide-empty><dt>24 小時高位</dt><dd data-k="p.BTC.high" data-f="usd">—</dd></div>
             <div class="kv-row"><dt>市值</dt><dd data-k="p.BTC.mcap" data-f="usdc">—</dd></div>
             <div class="kv-row"><dt>距歷史高位</dt><dd data-k="p.BTC.ath" data-f="pct">—</dd></div>
-            <div class="kv-row"><dt>快照收市價對 200 日線</dt><dd><span class="pill" data-k="ma.BTC.side200" data-f="text" data-side>—</span></dd></div>
+            <div class="kv-row"><dt>最新日線收市價對 200 日線</dt><dd><span class="pill" data-k="ma.BTC.side200" data-f="text" data-side>—</span></dd></div>
           </dl>
         </article>
         <article class="coin" data-coin="ETH">
@@ -255,7 +257,7 @@
             <div class="kv-row" data-hide-empty><dt>24 小時高位</dt><dd data-k="p.ETH.high" data-f="usd">—</dd></div>
             <div class="kv-row"><dt>市值</dt><dd data-k="p.ETH.mcap" data-f="usdc">—</dd></div>
             <div class="kv-row"><dt>距歷史高位</dt><dd data-k="p.ETH.ath" data-f="pct">—</dd></div>
-            <div class="kv-row"><dt>快照收市價對 200 日線</dt><dd><span class="pill" data-k="ma.ETH.side200" data-f="text" data-side>—</span></dd></div>
+            <div class="kv-row"><dt>最新日線收市價對 200 日線</dt><dd><span class="pill" data-k="ma.ETH.side200" data-f="text" data-side>—</span></dd></div>
           </dl>
         </article>
         <article class="coin" data-coin="SOL">
@@ -271,11 +273,11 @@
             <div class="kv-row" data-hide-empty><dt>24 小時高位</dt><dd data-k="p.SOL.high" data-f="usd">—</dd></div>
             <div class="kv-row"><dt>市值</dt><dd data-k="p.SOL.mcap" data-f="usdc">—</dd></div>
             <div class="kv-row"><dt>距歷史高位</dt><dd data-k="p.SOL.ath" data-f="pct">—</dd></div>
-            <div class="kv-row"><dt>快照收市價對 200 日線</dt><dd><span class="pill" data-k="ma.SOL.side200" data-f="text" data-side>—</span></dd></div>
+            <div class="kv-row"><dt>最新日線收市價對 200 日線</dt><dd><span class="pill" data-k="ma.SOL.side200" data-f="text" data-side>—</span></dd></div>
           </dl>
         </article>
       </div>
-      <p class="cap">每行嘅走勢線係近 90 日 Kraken 收市價(快照)。</p>
+      <p class="cap">每行嘅走勢線係近 90 日 Kraken 日線收市價。<span class="chip" data-set="daily"><i class="dot"></i><span>快照</span></span></p>
 
       <div class="grid2">
         <div class="col">
@@ -293,7 +295,7 @@
           </div>
         </div>
         <div class="col">
-          <div class="sec-head"><h2>恐懼貪婪指數</h2><span class="chip" data-snap="b"><i class="dot"></i><span>快照</span></span></div>
+          <div class="sec-head"><h2>恐懼貪婪指數</h2><span class="chip" data-set="fear_greed"><i class="dot"></i><span>快照</span></span></div>
           <div class="card">
             <div class="fg-now">
               <div style="display:flex;align-items:baseline;gap:10px"><span class="big" data-k="fg.now.value" data-f="int">—</span><span class="sym" data-k="fg.now.label" data-f="text">—</span></div>
@@ -315,7 +317,7 @@
 
     <!-- 走勢 -->
     <section class="view" id="view-trend" data-view="trend" hidden>
-      <div class="sec-head"><h2><b data-coin-name>BTC</b> 收市價同平均線</h2><span class="chip" data-snap="a"><i class="dot"></i><span>快照</span></span></div>
+      <div class="sec-head"><h2><b data-coin-name>BTC</b> 收市價同平均線</h2><span class="chip" data-set="daily"><i class="dot"></i><span>快照</span></span></div>
       <div class="card">
         <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px">
           <ul class="legend">
@@ -334,13 +336,13 @@
             <tbody id="ma-rows"></tbody>
           </table>
         </div>
-        <details class="about"><summary>平均線點計</summary><p>簡單移動平均線(SMA)係最近 N 日收市價嘅平均。收市價用 Kraken 日線快照,以 UTC 計日,最新一日未收市。表入面比較嘅係快照最後一個收市價,唔係即時價。</p></details>
+        <details class="about"><summary>平均線點計</summary><p>簡單移動平均線(SMA)係最近 N 日收市價嘅平均。收市價用 Kraken 日線,以 UTC 計日,最新一日未收市。表入面比較嘅係最新一個日線收市價。</p></details>
       </div>
     </section>
 
     <!-- 衍生品 -->
     <section class="view" id="view-derivs" data-view="derivs" hidden>
-      <div class="sec-head"><h2>未平倉合約(OI)</h2><span class="chip" data-snap="a"><i class="dot"></i><span>快照</span></span></div>
+      <div class="sec-head"><h2>未平倉合約(OI)</h2><span class="chip" data-set="perps"><i class="dot"></i><span>快照</span></span></div>
       <div class="tiles">
         <button class="tile" type="button" data-pick="BTC" aria-pressed="true"><span class="sym">BTC</span><span class="val" data-k="oi.BTC.total" data-f="usdc">—</span><span class="sub" data-k="oi.BTC.fr" data-f="fr">—</span></button>
         <button class="tile" type="button" data-pick="ETH" aria-pressed="false"><span class="sym">ETH</span><span class="val" data-k="oi.ETH.total" data-f="usdc">—</span><span class="sub" data-k="oi.ETH.fr" data-f="fr">—</span></button>
@@ -348,8 +350,8 @@
       </div>
       <p class="cap">大字係十間交易所永續合約合計 OI,細字係 Binance USDT 永續合約嘅當期資金費率。</p>
       <div class="grid2">
-        <div class="card"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅未平倉合約,近 180 日</h3><div class="chart" data-chart="oi"></div></div>
-        <div class="card"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅資金費率,每 8 小時結算,近 100 日</h3><div class="chart" data-chart="fr"></div></div>
+        <div class="card"><div class="card-head"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅未平倉合約,近 180 日</h3><span class="chip" data-set="oi_history"><i class="dot"></i><span>快照</span></span></div><div class="chart" data-chart="oi"></div></div>
+        <div class="card"><div class="card-head"><h3><b data-coin-name>BTC</b> 喺 OKX 嘅資金費率,每 8 小時結算,近 100 日</h3><span class="chip" data-set="funding_history"><i class="dot"></i><span>快照</span></span></div><div class="chart" data-chart="fr"></div></div>
       </div>
       <div class="card">
         <h3><b data-coin-name>BTC</b> 各交易所</h3>
@@ -362,7 +364,7 @@
         <details class="about"><summary>OI 同資金費率點睇</summary><p>OI 係市場上未平倉永續合約嘅總值。資金費率係多空雙方定期互相支付嘅費用,正數代表多頭俾錢空頭。合計只計 Binance、OKX、Bybit、Gate、MEXC、Bitget、Hyperliquid、Deribit、HTX、BingX 十間交易所。每間交易所嘅資金費率取 OI 最大嗰張合約;多數每 8 小時結算一次,Hyperliquid 每小時結算,唔可以直接比較。OKX 走勢圖嘅 OI 包括期貨同永續合約。</p></details>
       </div>
 
-      <div class="sec-head"><h2>爆倉,OKX 最近 24 小時</h2><span class="chip" data-snap="b"><i class="dot"></i><span>快照</span></span></div>
+      <div class="sec-head"><h2>爆倉,OKX 最近 24 小時</h2><span class="chip" data-set="liquidations"><i class="dot"></i><span>快照</span></span></div>
       <div class="card">
         <div class="dom-top">
           <div><div class="mid" data-k="liq.$.total" data-f="usdc">—</div><div class="cap"><b data-coin-name>BTC</b> 爆倉合計</div></div>
@@ -372,15 +374,16 @@
             <div class="kv-row"><dt>多單佔比</dt><dd data-k="liq.$.share" data-f="share">—</dd></div>
           </dl>
         </div>
+        <p class="cap" id="liq-partial" hidden></p>
         <ul class="legend"><li><i class="box b1"></i>多單爆倉</li><li><i class="box b2"></i>空單爆倉</li></ul>
         <div class="chart" data-chart="liq"></div>
-        <details class="about"><summary>爆倉數字嘅範圍</summary><p>爆倉係槓桿倉位保證金唔夠,被交易所強制平倉。呢度只計 OKX 嘅 USDT 本位永續合約,統計截至快照時間嘅最近 24 小時,唔係全市場數字。</p></details>
+        <details class="about"><summary>爆倉數字嘅範圍</summary><p>爆倉係槓桿倉位保證金唔夠,被交易所強制平倉。呢度只計 OKX 嘅 USDT 本位永續合約,統計最近 24 小時(快照就係截至快照時間嘅 24 小時),唔係全市場數字。</p></details>
       </div>
     </section>
 
     <!-- ETF -->
     <section class="view" id="view-etf" data-view="etf" hidden>
-      <div class="sec-head"><h2>現貨 ETF 最新交易日淨流量</h2><span class="chip" data-snap="b"><i class="dot"></i><span>快照</span></span></div>
+      <div class="sec-head"><h2>現貨 ETF 最新交易日淨流量</h2><span class="chip" data-set="etf_flows"><i class="dot"></i><span>快照</span></span></div>
       <div class="tiles">
         <button class="tile" type="button" data-pick="BTC" aria-pressed="true"><span class="sym">BTC</span><span class="val" data-k="etf.BTC.last" data-f="usdcs" data-tone>—</span><span class="sub" data-k="etf.BTC.date" data-f="md">—</span></button>
         <button class="tile" type="button" data-pick="ETH" aria-pressed="false"><span class="sym">ETH</span><span class="val" data-k="etf.ETH.last" data-f="usdcs" data-tone>—</span><span class="sub" data-k="etf.ETH.date" data-f="md">—</span></button>
@@ -400,7 +403,7 @@
 
     <!-- 鏈上 -->
     <section class="view" id="view-chain" data-view="chain" hidden>
-      <div class="sec-head"><h2>鏈上數據</h2><span class="chip" data-snap="a"><i class="dot"></i><span>快照</span></span></div>
+      <div class="sec-head"><h2>鏈上數據</h2><span class="chip" data-set="chain_daily chain_defi"><i class="dot"></i><span>快照</span></span></div>
       <div class="card">
         <div class="scroll">
           <table class="wrapcol">
@@ -424,7 +427,7 @@
         <div class="card"><h3><b data-coin-name>BTC</b> MVRV,虛線係 1</h3><div class="chart" data-chart="mvrv"></div></div>
       </div>
       <p class="cap" id="chain-sol-note" hidden>Coin Metrics 免費數據冇 SOL 嘅活躍地址同 MVRV,所以 SOL 冇鏈上走勢圖。</p>
-      <div class="sec-head"><h2>Bitcoin 網絡</h2><span class="chip" data-snap="a"><i class="dot"></i><span>快照</span></span></div>
+      <div class="sec-head"><h2>Bitcoin 網絡</h2><span class="chip" data-set="btc_network"><i class="dot"></i><span>快照</span></span></div>
       <div class="card">
         <dl class="strip">
           <div><dt>區塊高度</dt><dd data-k="net.height" data-f="int">—</dd></div>
@@ -437,7 +440,7 @@
       </div>
     </section>
   </main>
-  <p class="cap foot">即時價格、總市值同市值佔比由 CoinGecko 提供,其餘係快照。資料只供參考,唔係投資建議。</p>
+  <p class="cap foot">價格同市場數據由 CoinGecko 提供,其他來源見各區段;每個區段都標明係即時定快照。資料只供參考,唔係投資建議。</p>
 </div>
 
 <nav class="tabbar" aria-label="分頁">
@@ -498,10 +501,19 @@
   };
   const byDate = (a, b) => (a.date < b.date ? -1 : 1);
 
-  // ---- values worked out from the snapshot files, once -------------------
-  const maLines = {}, maTable = {};
+  // ---- the working data: starts as the snapshot; a source that loads live replaces its own rows ----
+  const SETS = ['daily', 'fear_greed', 'perps', 'oi_history', 'funding_history', 'liquidations', 'etf_flows', 'chain_daily', 'chain_defi', 'btc_network'];
+  const DATA = {};
+  for (const k of SETS) DATA[k] = SNAP[k];
+  const SNAP_TIME = {};
+  for (const k of SETS) SNAP_TIME[k] = Date.parse(SNAP._at[['etf_flows', 'fear_greed', 'liquidations'].includes(k) ? 'b' : 'a']);
+
+  // ---- values worked out from the working data; run again whenever a source changes ----
+  let maLines, maTable, venues, fgRows, STATIC;
+  function derive() {
+  maLines = {}; maTable = {};
   for (const symbol of COINS) {
-    const rows = SNAP.daily.filter((r) => r.symbol === symbol).sort(byDate);
+    const rows = DATA.daily.filter((r) => r.symbol === symbol).sort(byDate);
     const sma = (i, n) => (i + 1 < n ? null : rows.slice(i + 1 - n, i + 1).reduce((s, r) => s + r.close, 0) / n);
     maLines[symbol] = rows.map((r, i) => ({date: r.date, close: r.close, ma20: sma(i, 20), ma50: sma(i, 50), ma200: sma(i, 200)}));
     const closes = rows.map((r) => r.close), close = closes[closes.length - 1];
@@ -510,44 +522,46 @@
       return {label: 'MA' + n, ma, dist_pct: (close / ma - 1) * 100, side: close >= ma ? '高於' : '低於'};
     });
   }
-  const venues = {};
+  venues = {};
   for (const symbol of COINS) {
     const groups = new Map();
-    for (const r of SNAP.perps.filter((p) => p.symbol === symbol)) { if (!groups.has(r.exchange)) groups.set(r.exchange, []); groups.get(r.exchange).push(r); }
+    for (const r of DATA.perps.filter((p) => p.symbol === symbol)) { if (!groups.has(r.exchange)) groups.set(r.exchange, []); groups.get(r.exchange).push(r); }
     venues[symbol] = [...groups].map(([exchange, rows]) => {
       const top = rows.reduce((a, b) => (b.oi_usd > a.oi_usd ? b : a));
       return {exchange, oi_usd: rows.reduce((s, r) => s + r.oi_usd, 0), funding_pct: top.funding_pct, top_pair: top.pair};
     }).sort((a, b) => b.oi_usd - a.oi_usd);
   }
-  const fgRows = [...SNAP.fear_greed].sort((a, b) => (a.date < b.date ? 1 : -1));
-  const STATIC = (() => {
+  fgRows = [...DATA.fear_greed].sort((a, b) => (a.date < b.date ? 1 : -1));
+  STATIC = (() => {
     const v = {};
     for (const symbol of COINS) {
       const m200 = maTable[symbol].find((r) => r.label === 'MA200');
       v['ma.' + symbol + '.side200'] = m200 ? m200.side : null;
-      v['oi.' + symbol + '.total'] = SNAP.perps.filter((r) => r.symbol === symbol).reduce((s, r) => s + r.oi_usd, 0);
-      const bn = SNAP.perps.find((r) => r.symbol === symbol && r.exchange === 'Binance' && r.pair === symbol + 'USDT');
+      v['oi.' + symbol + '.total'] = DATA.perps.filter((r) => r.symbol === symbol).reduce((s, r) => s + r.oi_usd, 0);
+      const bn = DATA.perps.find((r) => r.symbol === symbol && r.exchange === 'Binance' && r.pair === symbol + 'USDT');
       v['oi.' + symbol + '.fr'] = bn ? bn.funding_pct : null;
-      const liq = SNAP.liquidations.filter((r) => r.symbol === symbol);
+      const liq = DATA.liquidations.filter((r) => r.symbol === symbol);
       const long = liq.reduce((s, r) => s + r.long_usd, 0), short = liq.reduce((s, r) => s + r.short_usd, 0);
       v['liq.' + symbol + '.long'] = long; v['liq.' + symbol + '.short'] = short; v['liq.' + symbol + '.total'] = long + short;
       v['liq.' + symbol + '.share'] = long + short ? long / (long + short) * 100 : null;
-      const etf = SNAP.etf_flows.filter((r) => r.symbol === symbol).sort(byDate);
+      const etf = DATA.etf_flows.filter((r) => r.symbol === symbol).sort(byDate);
       if (etf.length) {
         const sum = (list) => list.reduce((s, r) => s + r.net_flow_usd, 0), last = etf[etf.length - 1];
         v['etf.' + symbol + '.date'] = last.date; v['etf.' + symbol + '.last'] = last.net_flow_usd;
         v['etf.' + symbol + '.sum5'] = sum(etf.slice(-5)); v['etf.' + symbol + '.sum90'] = sum(etf);
       }
-      const ch = SNAP.chain_daily.filter((r) => r.symbol === symbol && r.active_addresses != null && r.tx_count != null && r.mvrv != null).sort(byDate).pop();
+      const ch = DATA.chain_daily.filter((r) => r.symbol === symbol && r.active_addresses != null && r.tx_count != null && r.mvrv != null).sort(byDate).pop();
       if (ch) { v['ch.' + symbol + '.aa'] = ch.active_addresses; v['ch.' + symbol + '.tx'] = ch.tx_count; v['ch.' + symbol + '.mvrv'] = ch.mvrv; v['ch.' + symbol + '.date'] = ch.date; }
-      const df = SNAP.chain_defi.find((r) => r.symbol === symbol);
+      const df = DATA.chain_defi.find((r) => r.symbol === symbol);
       if (df) { v['df.' + symbol + '.fees'] = df.fees_24h_usd; v['df.' + symbol + '.tvl'] = df.tvl_usd; v['df.' + symbol + '.stable'] = df.stablecoins_usd; v['df.' + symbol + '.dex'] = df.dex_volume_24h_usd; }
     }
     [['now', 0], ['d1', 1], ['d7', 7], ['d30', 30]].forEach(([k, i]) => { if (fgRows[i]) { v['fg.' + k + '.value'] = fgRows[i].value; v['fg.' + k + '.label'] = fgRows[i].label_zh; } });
-    const n = SNAP.btc_network[0] || {};
+    const n = DATA.btc_network[0] || {};
     Object.assign(v, {'net.height': n.block_height, 'net.mempool': n.mempool_tx, 'net.fast': n.fee_fast_satvb, 'net.hour': n.fee_1h_satvb, 'net.hash': n.hashrate_ehs, 'net.adj': n.next_adjust_pct, 'net.blocks': n.next_adjust_blocks});
     return v;
   })();
+  }
+  derive();
 
   // ---- live CoinGecko answers, shaped like the snapshot files ------------
   const live = {prices: null, global: null, top: null};
@@ -651,11 +665,32 @@
     n.dataset.mode = isLive ? (stale ? 'stale' : 'live') : 'snapshot';
     n.lastElementChild.textContent = stale ? '上次即時 · ' + hmFmt.format(new Date(at)) : chipText(isLive, at);
   }
+  // A section's chip: live once every source behind it has loaded live, otherwise the snapshot's time.
+  const setState = {}, liqPartial = {};
+  const TTL = {daily: 30, fear_greed: 60, perps: 15, funding_history: 60, liquidations: 15, chain_daily: 360, chain_defi: 30, btc_network: 2};   // minutes
+  const stateOf = (k) => setState[k === 'liquidations' ? k + ':' + state.coin : k] || {};
+  function setDataChip(n) {
+    const keys = n.dataset.set.split(' '), sts = keys.map(stateOf), liveOnes = sts.filter((s) => s.live), text = n.lastElementChild;
+    if (liveOnes.length === keys.length) {
+      const got = Math.min(...sts.map((s) => s.got)), stale = keys.some((k, i) => Date.now() - sts[i].got > TTL[k] * 60000 * 3);
+      n.dataset.mode = stale ? 'stale' : 'live';
+      text.textContent = (stale ? '上次即時 · ' : '即時 · ') + hmFmt.format(new Date(got));
+    } else if (liveOnes.length) {
+      n.dataset.mode = 'stale';
+      text.textContent = '部分即時 · ' + hmFmt.format(new Date(Math.min(...liveOnes.map((s) => s.got))));
+    } else {
+      n.dataset.mode = 'snapshot';
+      text.textContent = '快照 · ' + hktFmt.format(new Date(Math.min(...keys.map((k) => SNAP_TIME[k])))) + (sts.some((s) => s.loading) ? ' · 載入緊' : sts.some((s) => s.failed) ? ' · 即時載入唔到' : '');
+    }
+  }
   function renderStatus() {
     const p = priceSrc(), g = globalSrc();
     for (const n of $$('[data-src="prices"]')) setChip(n, p.live, p.at, p.got);
     for (const n of $$('[data-src="global"]')) setChip(n, g.live, g.at, g.got);
-    for (const n of $$('[data-snap]')) setChip(n, false, Date.parse(SNAP._at[n.dataset.snap]));
+    for (const n of $$('[data-set]')) setDataChip(n);
+    const partial = liqPartial[state.coin];
+    $('#liq-partial').hidden = !partial;
+    if (partial) $('#liq-partial').textContent = '爆倉單太多,呢度只計到最近 ' + partial + ' 小時。';
 
     const keys = Object.keys(live), got = keys.filter((k) => live[k]), failed = keys.filter((k) => errs[k]);
     const status = $('#status'), text = $('#status-text'), note = $('#live-note'), refresh = $('#refresh');
@@ -845,36 +880,36 @@
       ]});
     },
     fg(box) {
-      const rows = [...SNAP.fear_greed].sort(byDate);
+      const rows = [...DATA.fear_greed].sort(byDate);
       lineChart(box, {height: 220, aria: '恐懼貪婪指數,近一年', domain: [0, 100], refs: [50], yFmt: (v) => String(v), tipFmt: FMT.int, tipDate: dayFmt, series: one('指數', rows, (r) => [parseDay(r.date), r.value])});
     },
     oi(box) {
-      const rows = SNAP.oi_history.filter((r) => r.symbol === state.coin).sort(byDate);
+      const rows = DATA.oi_history.filter((r) => r.symbol === state.coin).sort(byDate);
       lineChart(box, {height: 220, aria: state.coin + ' 喺 OKX 嘅未平倉合約,近 180 日', yFmt: FMT.axisUsd, tipFmt: FMT.usdc, tipDate: dayFmt, series: one('OI', rows, (r) => [parseDay(r.date), r.oi_usd])});
     },
     fr(box) {
-      const rows = SNAP.funding_history.filter((r) => r.symbol === state.coin).sort((a, b) => (a.time < b.time ? -1 : 1));
+      const rows = DATA.funding_history.filter((r) => r.symbol === state.coin).sort((a, b) => (a.time < b.time ? -1 : 1));
       lineChart(box, {height: 220, aria: state.coin + ' 喺 OKX 嘅資金費率,近 100 日', refs: [0], yFmt: (v) => trim(v, 3) + '%', tipFmt: FMT.fr,
         tipDate: (d) => hktFmt.format(d) + ' 香港時間', series: one('資金費率', rows, (r) => [new Date(r.time), r.funding_pct])});
     },
     liq(box) {
-      const rows = SNAP.liquidations.filter((r) => r.symbol === state.coin).sort((a, b) => (a.hour < b.hour ? -1 : 1));
+      const rows = DATA.liquidations.filter((r) => r.symbol === state.coin).sort((a, b) => (a.hour < b.hour ? -1 : 1));
       barChart(box, {height: 220, aria: state.coin + ' 喺 OKX 最近 24 小時每小時嘅多單同空單爆倉金額', yFmt: FMT.axisUsd, tipFmt: FMT.usdc,
         tick: (d) => hmFmt.format(d), tipDate: (d) => hktFmt.format(d) + ' 起一小時,香港時間',
         bars: rows.map((r) => ({t: new Date(r.hour), parts: [{label: '多單爆倉', color: C(1), cls: 'b1', v: r.long_usd}, {label: '空單爆倉', color: C(2), cls: 'b2', v: r.short_usd}]}))});
     },
     etf(box) {
-      const rows = SNAP.etf_flows.filter((r) => r.symbol === state.coin).sort(byDate);
+      const rows = DATA.etf_flows.filter((r) => r.symbol === state.coin).sort(byDate);
       barChart(box, {height: 220, aria: state.coin + ' 現貨 ETF 每日淨流量,近 90 日', yFmt: FMT.axisUsd, tipFmt: FMT.usdcs,
         tick: (d) => (d.getUTCMonth() + 1) + '/' + d.getUTCDate(), tipDate: dayFmt,
         bars: rows.map((r) => { const inflow = r.net_flow_usd >= 0; return {t: parseDay(r.date), parts: [{label: inflow ? '淨流入' : '淨流出', color: C(inflow ? 1 : 2), cls: inflow ? 'b1' : 'b2', v: r.net_flow_usd}]}; })});
     },
     aa(box) {
-      const rows = SNAP.chain_daily.filter((r) => r.symbol === state.coin).sort(byDate);
+      const rows = DATA.chain_daily.filter((r) => r.symbol === state.coin).sort(byDate);
       lineChart(box, {height: 220, aria: state.coin + ' 每日活躍地址,近一年', yFmt: FMT.axisCount, tipFmt: FMT.int, tipDate: dayFmt, series: one('活躍地址', rows, (r) => [parseDay(r.date), r.active_addresses])});
     },
     mvrv(box) {
-      const rows = SNAP.chain_daily.filter((r) => r.symbol === state.coin).sort(byDate);
+      const rows = DATA.chain_daily.filter((r) => r.symbol === state.coin).sort(byDate);
       lineChart(box, {height: 220, aria: state.coin + ' MVRV,近一年', refs: [1], yFmt: (v) => trim(v, 2), tipFmt: FMT.x2, tipDate: dayFmt, series: one('MVRV', rows, (r) => [parseDay(r.date), r.mvrv])});
     },
   };
@@ -882,7 +917,7 @@
     for (const box of $$('[data-chart]')) if (!box.closest('[hidden]')) CHARTS[box.dataset.chart](box);
     if (state.tab === 'market') {
       for (const box of $$('[data-spark]')) {
-        const rows = SNAP.daily.filter((r) => r.symbol === box.dataset.spark).sort(byDate).slice(-90);
+        const rows = DATA.daily.filter((r) => r.symbol === box.dataset.spark).sort(byDate).slice(-90);
         lineChart(box, {bare: true, area: true, height: 36, aria: '', series: one('收市價', rows, (r) => [parseDay(r.date), r.close])});
       }
     }
@@ -948,7 +983,7 @@
     const sol = state.coin === 'SOL';
     $('#chain-charts').hidden = sol; $('#chain-sol-note').hidden = !sol;
   }
-  function render() { renderControls(); bind(); renderStatus(); renderLists(); drawCharts(); }
+  function render() { renderControls(); bind(); renderStatus(); renderLists(); drawCharts(); ensureSets(false); }
   let queued = false;
   const queueRender = () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; render(); }); };
 
@@ -1006,7 +1041,7 @@
   }
   $('#refresh').addEventListener('click', () => {
     const btn = $('#refresh');
-    if (direct) { if (Date.now() - directLast > 10000) { btn.classList.add('busy'); directFetch(); } return; }
+    if (direct) { if (Date.now() - directLast > 10000) { btn.classList.add('busy'); directFetch(); } ensureSets(true); return; }
     if (!mcp || stopped) return;
     btn.classList.add('busy');
     setTimeout(() => btn.classList.remove('busy'), 8000);
@@ -1026,6 +1061,12 @@
         });
     }
   });
+  // Outside Claude only: load, for the tab on screen, any source that is due. `force` is the refresh button.
+  function ensureSets(force) {
+    if (!direct) return;
+    for (const key of NEEDS[state.tab] || []) loadSet(key, force);
+  }
+
   // ---- outside Claude (a GitHub Pages copy, a saved file): CoinGecko's public API, no key ----
   const API = 'https://api.coingecko.com/api/v3/';
   let directBusy = false, directLast = 0;
@@ -1070,8 +1111,150 @@
   function startDirect() {
     direct = true;
     directFetch();
-    setInterval(() => { if (document.visibilityState === 'visible') directFetch(); }, 60000);
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - directLast > 60000) directFetch(); });
+    setInterval(() => { if (document.visibilityState === 'visible') { directFetch(); ensureSets(false); } }, 60000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState !== 'visible') return;
+      if (Date.now() - directLast > 60000) directFetch();
+      ensureSets(false);
+    });
+  }
+
+  // ---- outside Claude: the other sources' own public APIs, loaded for the tab on screen ----
+  // Each loader returns rows shaped like its snapshot file, so everything downstream is unchanged.
+  const NEEDS = {market: ['daily', 'fear_greed'], trend: ['daily'], derivs: ['perps', 'funding_history', 'liquidations'], etf: [], chain: ['chain_daily', 'chain_defi', 'btc_network']};
+  const getJSON = async (url, ms) => {
+    const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), ms || 25000);
+    try {
+      const r = await fetch(url, {cache: 'no-store', signal: ctl.signal});
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } finally { clearTimeout(timer); }
+  };
+  const flt = (v) => { const x = typeof v === 'number' ? v : parseFloat(v); return isFinite(x) ? x : null; };
+  const isoDay = (ms) => new Date(ms).toISOString().slice(0, 10);
+  const unexpected = () => new Error('答案格式同預期唔同');
+  const FG_ZH = {'Extreme Fear': '極度恐懼', 'Fear': '恐懼', 'Neutral': '中性', 'Greed': '貪婪', 'Extreme Greed': '極度貪婪'};
+  const VENUE = {binance_futures: 'Binance', bybit: 'Bybit', okex_swap: 'OKX', mxc_futures: 'MEXC', gate_futures: 'Gate', hyperliquid: 'Hyperliquid', bitget_futures: 'Bitget', huobi_dm: 'HTX', deribit: 'Deribit', bingx_futures: 'BingX'};
+  const CHAIN = {BTC: 'Bitcoin', ETH: 'Ethereum', SOL: 'Solana'};
+  const LOADERS = {
+    // Kraken daily candles: the close of each UTC day, up to 720 days.
+    async daily() {
+      const pairs = {BTC: 'XBTUSD', ETH: 'ETHUSD', SOL: 'SOLUSD'}, out = [];
+      for (const symbol of COINS) {
+        const j = await getJSON('https://api.kraken.com/0/public/OHLC?pair=' + pairs[symbol] + '&interval=1440');
+        if (!j || (j.error && j.error.length)) throw new Error(String((j && j.error && j.error[0]) || 'Kraken'));
+        const key = Object.keys(j.result || {}).find((k) => k !== 'last'), candles = key ? j.result[key] : null;
+        if (!Array.isArray(candles) || candles.length < 200) throw unexpected();
+        for (const c of candles) { const close = flt(c[4]); if (close != null) out.push({date: isoDay(c[0] * 1000), symbol, close}); }
+      }
+      return out;
+    },
+    // alternative.me: one reading a day.
+    async fear_greed() {
+      const j = await getJSON('https://api.alternative.me/fng/?limit=365');
+      const rows = ((j && j.data) || []).map((r) => ({date: isoDay(r.timestamp * 1000), value: flt(r.value), label_zh: FG_ZH[r.value_classification] || String(r.value_classification || '').slice(0, 20)}))
+        .filter((r) => r.value != null && /^\d{4}-\d\d-\d\d$/.test(r.date));
+      if (rows.length < 31) throw unexpected();
+      return rows;
+    },
+    // CoinGecko's derivatives feed, kept to perpetuals on the ten exchanges. It is a large answer (about 2 MB compressed).
+    async perps() {
+      const list = await getJSON('https://api.coingecko.com/api/v3/derivatives', 90000);
+      if (!Array.isArray(list)) throw unexpected();
+      const rows = list.filter((r) => r && r.contract_type === 'perpetual' && COINS.includes(r.index_id) && VENUE[r.exchange_id] && num(r.open_interest) != null)
+        .map((r) => ({symbol: r.index_id, exchange: VENUE[r.exchange_id], pair: String(r.symbol).slice(0, 40), oi_usd: r.open_interest, funding_pct: num(r.funding_rate)}));
+      if (rows.length < 10) throw unexpected();
+      return rows;
+    },
+    // OKX: settled funding rate of each USDT swap, three pages of 100 settlements (about 100 days).
+    async funding_history() {
+      const out = [];
+      for (const symbol of COINS) {
+        let after = '';
+        for (let page = 0; page < 3; page++) {
+          const j = await getJSON('https://www.okx.com/api/v5/public/funding-rate-history?instId=' + symbol + '-USDT-SWAP&limit=100' + (after ? '&after=' + after : ''));
+          if (!j || j.code !== '0' || !Array.isArray(j.data)) throw unexpected();
+          if (!j.data.length) break;
+          for (const r of j.data) {
+            const rate = flt(r.realizedRate != null && r.realizedRate !== '' ? r.realizedRate : r.fundingRate), t = Number(r.fundingTime);
+            if (rate != null && isFinite(t)) out.push({symbol, time: new Date(t).toISOString(), funding_pct: rate * 100});
+          }
+          after = j.data[j.data.length - 1].fundingTime;
+        }
+      }
+      if (out.length < 30) throw unexpected();
+      return out;
+    },
+    // OKX: filled liquidation orders of one coin's USDT swap over the last 24 hours, paged back 100 at a time and summed by hour.
+    async liquidations(symbol) {
+      const inst = await getJSON('https://www.okx.com/api/v5/public/instruments?instType=SWAP&instFamily=' + symbol + '-USDT');
+      const spec = ((inst && inst.data) || []).find((i) => i.instId === symbol + '-USDT-SWAP'), ctVal = spec ? flt(spec.ctVal) : null;
+      if (!ctVal) throw unexpected();
+      const end = Date.now(), start = end - 24 * 3600e3, MAX_PAGES = 150;
+      const rows = Array.from({length: 24}, (_, i) => ({hour: new Date(start + i * 3600e3).toISOString(), symbol, long_usd: 0, short_usd: 0}));
+      let after = '', pages = 0, done = false, oldest = end;
+      while (!done && pages < MAX_PAGES) {
+        const j = await getJSON('https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&uly=' + symbol + '-USDT&state=filled&limit=100' + (after ? '&after=' + after : ''));
+        if (!j || j.code !== '0' || !Array.isArray(j.data)) throw unexpected();
+        const details = (j.data[0] && j.data[0].details) || [];
+        if (!details.length) { done = true; break; }      // OKX keeps about a day of these
+        for (const d of details) {
+          const ts = Number(d.ts), usd = flt(d.sz) * ctVal * flt(d.bkPx);
+          if (!isFinite(ts) || !isFinite(usd)) continue;
+          if (ts < start) { done = true; continue; }
+          oldest = Math.min(oldest, ts);
+          const row = rows[Math.min(23, Math.floor((ts - start) / 3600e3))];
+          if (d.posSide === 'long' || (d.posSide !== 'short' && d.side === 'sell')) row.long_usd += usd; else row.short_usd += usd;
+        }
+        after = details[details.length - 1].ts; pages += 1;
+      }
+      liqPartial[symbol] = done ? 0 : Math.max(1, Math.floor((end - oldest) / 3600e3));
+      return done ? rows : rows.filter((r) => Date.parse(r.hour) >= oldest - 3600e3);
+    },
+    // Coin Metrics community data: daily active addresses, transactions and MVRV for BTC and ETH, one year.
+    async chain_daily() {
+      const j = await getJSON('https://community-api.coinmetrics.io/v4/timeseries/asset-metrics?assets=btc,eth&metrics=AdrActCnt,TxCnt,CapMVRVCur&frequency=1d&page_size=1000&start_time=' + isoDay(Date.now() - 366 * 864e5));
+      const rows = ((j && j.data) || []).map((r) => ({date: String(r.time).slice(0, 10), symbol: String(r.asset).toUpperCase(), active_addresses: flt(r.AdrActCnt), tx_count: flt(r.TxCnt), mvrv: flt(r.CapMVRVCur)}))
+        .filter((r) => COINS.includes(r.symbol) && /^\d{4}-\d\d-\d\d$/.test(r.date));
+      if (rows.length < 60) throw unexpected();
+      return rows;
+    },
+    // DefiLlama: TVL, USD stablecoin supply, the chain's own fees (not its apps') and DEX volume over the last 24 hours.
+    async chain_defi() {
+      const q = '?excludeTotalDataChart=true&excludeTotalDataChartBreakdown=true';
+      const [chains, stables, ...per] = await Promise.all([
+        getJSON('https://api.llama.fi/v2/chains'), getJSON('https://stablecoins.llama.fi/stablecoinchains'),
+        ...COINS.flatMap((c) => [getJSON('https://api.llama.fi/summary/fees/' + CHAIN[c].toLowerCase() + '?dataType=dailyFees', 40000), getJSON('https://api.llama.fi/overview/dexs/' + CHAIN[c] + q)]),
+      ]);
+      if (!Array.isArray(chains) || !Array.isArray(stables)) throw unexpected();
+      return COINS.map((symbol, i) => {
+        const ch = chains.find((x) => x && x.name === CHAIN[symbol]), st = stables.find((x) => x && x.name === CHAIN[symbol]);
+        return {symbol, fees_24h_usd: num(per[i * 2] && per[i * 2].total24h), tvl_usd: ch ? num(ch.tvl) : null,
+          stablecoins_usd: st && st.totalCirculatingUSD ? num(st.totalCirculatingUSD.peggedUSD) : null, dex_volume_24h_usd: num(per[i * 2 + 1] && per[i * 2 + 1].total24h)};
+      });
+    },
+    // mempool.space: the Bitcoin network right now.
+    async btc_network() {
+      const b = 'https://mempool.space/api/';
+      const [height, mem, fees, hash, diff] = await Promise.all([getJSON(b + 'blocks/tip/height'), getJSON(b + 'mempool'), getJSON(b + 'v1/fees/recommended'), getJSON(b + 'v1/mining/hashrate/3d'), getJSON(b + 'v1/difficulty-adjustment')]);
+      if (num(height) == null) throw unexpected();
+      return [{block_height: height, mempool_tx: num(mem && mem.count), fee_fast_satvb: num(fees && fees.fastestFee), fee_1h_satvb: num(fees && fees.hourFee),
+        hashrate_ehs: num(hash && hash.currentHashrate) != null ? hash.currentHashrate / 1e18 : null, next_adjust_pct: num(diff && diff.difficultyChange), next_adjust_blocks: num(diff && diff.remainingBlocks)}];
+    },
+  };
+  function loadSet(key, force) {
+    const coin = key === 'liquidations' ? state.coin : null, id = coin ? key + ':' + coin : key;
+    const st = setState[id] || (setState[id] = {live: false, got: 0, loading: false, failed: false, tried: 0});
+    const now = Date.now();
+    if (st.loading) return;
+    if (force ? now - st.tried < 10000 : (st.live && now - st.got < TTL[key] * 60000) || (st.failed && now - st.tried < 120000)) return;
+    st.loading = true; st.tried = now;
+    LOADERS[key](coin).then((rows) => {
+      DATA[key] = coin ? DATA[key].filter((r) => r.symbol !== coin).concat(rows) : rows;
+      st.live = true; st.got = Date.now(); st.failed = false;
+      derive();
+    }, () => { st.failed = true; }).then(() => { st.loading = false; queueRender(); });
+    queueRender();
   }
 
   setInterval(renderStatus, 30000);
