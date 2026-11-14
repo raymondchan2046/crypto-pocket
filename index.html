@@ -677,7 +677,7 @@
       text.textContent = (stale ? '上次即時 · ' : '即時 · ') + hmFmt.format(new Date(got));
     } else if (liveOnes.length) {
       n.dataset.mode = 'stale';
-      text.textContent = '部分即時 · ' + hmFmt.format(new Date(Math.min(...liveOnes.map((s) => s.got))));
+      text.textContent = '部分即時 · ' + hmFmt.format(new Date(Math.min(...liveOnes.map((s) => s.got)))) + (sts.some((s) => s.loading) ? ' · 載入緊' : '');
     } else {
       n.dataset.mode = 'snapshot';
       text.textContent = '快照 · ' + hktFmt.format(new Date(Math.min(...keys.map((k) => SNAP_TIME[k])))) + (sts.some((s) => s.loading) ? ' · 載入緊' : sts.some((s) => s.failed) ? ' · 即時載入唔到' : '');
