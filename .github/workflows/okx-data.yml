@@ -1,0 +1,49 @@
+# Every hour, collects OKX's hourly statistics for the app's 每小時槓桿同資金流 chart and
+# publishes them as okx.json on the `data` branch. The web page reads that file from
+# raw.githubusercontent.com, because OKX does not let a web page read these endpoints itself.
+# The `data` branch holds a single commit that is replaced on every run, so it never grows.
+name: Update OKX hourly data
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: okx-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the scripts
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+
+      - name: Fetch the previous data file
+        run: |
+          mkdir -p out
+          if git fetch --depth=1 origin data; then
+            git show FETCH_HEAD:okx.json > out/okx.json || rm -f out/okx.json
+          fi
+
+      - name: Collect the new hours from OKX
+        run: python3 scripts/update_okx.py out/okx.json
+
+      - name: Publish to the data branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd out
+          git init -q -b data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add okx.json
+          git commit -q -m "OKX hourly data, $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" data
