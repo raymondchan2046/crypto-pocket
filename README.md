@@ -21,10 +21,10 @@ On a phone, choose "Add to Home Screen" in the browser menu to open it full scre
 | Active addresses, transactions, MVRV | Coin Metrics community data |
 | Chain fees, TVL, stablecoin supply, DEX volume | DefiLlama |
 | Bitcoin network | mempool.space |
+| Hourly leverage and flow chart, OKX open-interest history | OKX statistics, collected every hour by this repository (see below) |
 
-**Snapshot** taken on 13 November 2026 (Hong Kong time) and stored inside `index.html`, because these two sources do not allow calls from a web page:
+**Snapshot** taken on 13 November 2026 (Hong Kong time) and stored inside `index.html`, because its source does not allow calls from a web page:
 
-- OKX open-interest history chart
 - spot ETF net flows (CoinMarketCap)
 
 Every section is labelled 即時 (live) or 快照 (snapshot) with its time. If a source cannot be reached, that section falls back to the snapshot and its label says so.
@@ -38,9 +38,18 @@ Every section has two extra parts:
 - **每項數據嘅含意** (what each figure means): a closed list under the section explaining each number in plain words.
 - **數字解讀** (reading of the numbers): a few sentences worked out from the figures on screen each time they load, such as how far the price is from its moving averages, whether funding is above or below the usual 0.01%, or which side most liquidations came from. They describe the data and never advise buying or selling.
 
+## Hourly leverage and flow (每小時槓桿同資金流)
+
+The 衍生品 tab has a chart of five panels on one hourly axis, for the last 24 hours, 3 days or 7 days: price, open interest across OKX contracts, net taker buying, the long/short account ratio and liquidations of the USDT-margined perpetual. Touching any panel shows every figure for that hour.
+
+OKX does not let a web page read these statistics, and keeps only about a day of liquidation orders. So `.github/workflows/okx-data.yml` runs `scripts/update_okx.py` every hour at about 17 minutes past. It merges the new hours into `okx.json` and publishes it on the `data` branch as a single commit that each run replaces, so the branch never grows. The page reads that file from `raw.githubusercontent.com`. Liquidations are kept from 15 November 2026 onward, for seven days; hours that a missed run left incomplete are shaded grey.
+
+To run it by hand: Actions → Update OKX hourly data → Run workflow. GitHub pauses scheduled workflows in a public repository after 60 days without activity; if that happens, the same page offers to turn it back on.
+
 ## Files
 
 - `index.html` is the whole app, with the snapshot data inside it. To update the app, upload a new `index.html`; the link stays the same.
 - `manifest.webmanifest` and the `icon-*.png` files are what "Add to Home Screen" uses.
+- `scripts/update_okx.py` and `.github/workflows/okx-data.yml` collect the hourly OKX data.
 
 For information only, not financial advice.
