@@ -21,13 +21,10 @@ On a phone, choose "Add to Home Screen" in the browser menu to open it full scre
 | Active addresses, transactions, MVRV | Coin Metrics community data |
 | Chain fees, TVL, stablecoin supply, DEX volume | DefiLlama |
 | Bitcoin network | mempool.space |
-| Hourly leverage and flow chart, OKX open-interest history | OKX statistics, collected every hour by this repository (see below) |
+| Hourly leverage and flow chart, OKX open-interest history | OKX statistics, collected by this repository's job (see below) |
+| Spot ETF daily net flows | CoinMarketCap, collected by the same job, because CoinMarketCap does not let a web page read it |
 
-**Snapshot** taken on 13 November 2026 (Hong Kong time) and stored inside `index.html`, because its source does not allow calls from a web page:
-
-- spot ETF net flows (CoinMarketCap)
-
-Every section is labelled 即時 (live) or 快照 (snapshot) with its time. If a source cannot be reached, that section falls back to the snapshot and its label says so.
+Every section is labelled with its time. If a source cannot be reached, that section falls back to a **snapshot** stored inside `index.html`, taken on 18 November 2026 (Hong Kong time), and its label says 快照 (snapshot).
 
 Opening the 衍生品 tab downloads about 2 MB (CoinGecko's full derivatives list) and pages through a day of OKX liquidation orders, so it takes longer than the other tabs.
 
@@ -68,6 +65,10 @@ Snapshot data, and OKX hourly data more than two and a half hours old, is never 
 The 衍生品 tab has a chart of five panels on one hourly axis, for the last 24 hours, 3 days or 7 days: price, open interest across OKX contracts, net taker buying, the long/short account ratio and liquidations of the USDT-margined perpetual. Touching any panel shows every figure for that hour.
 
 OKX does not let a web page read these statistics, and keeps only about a day of liquidation orders. So `.github/workflows/okx-data.yml` runs `scripts/update_okx.py` every hour at about 23 minutes past (GitHub often starts it a few minutes late). It merges the new hours into `okx.json` and publishes it on the `data` branch as a single commit that each run replaces, so the branch never grows. The page reads that file from `raw.githubusercontent.com`. Liquidations are kept from 15 November 2026 onward, for seven days; hours that a missed run left incomplete are shaded grey.
+
+The same job also collects the last 90 days of US spot ETF net flows for the three coins from CoinMarketCap.
+
+GitHub starts scheduled jobs on a best-effort basis, and in its first days it started this one only every 6 to 11 hours, not every hour. Between runs, the chart and the rebound check's hourly conditions show the time of the last update. After two and a half hours the rebound check stops counting them.
 
 To run it by hand: Actions → Update OKX hourly data → Run workflow. GitHub pauses scheduled workflows in a public repository after 60 days without activity; if that happens, the same page offers to turn it back on.
 

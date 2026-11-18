@@ -10,6 +10,9 @@ The file at PATH_TO_JSON is read if it exists and updated in place: new hours
 are merged into the old ones and anything older than seven days is dropped.
 OKX keeps only about a day of liquidation orders, so they are summed into the
 file as they arrive; an hour that a missed run left incomplete is marked.
+
+The same file carries the daily net flows of US spot ETFs for the three coins,
+from CoinMarketCap's public data API, which a web page cannot read either.
 """
 import json, os, sys, time, datetime, urllib.request, urllib.error
 
@@ -19,6 +22,7 @@ H = 3600_000
 KEEP_HOURS = 168
 KEEP_DAYS = 180
 HK = datetime.timezone(datetime.timedelta(hours=8))
+ETF_URL = 'https://api.coinmarketcap.com/data-api/v3/etf/overview/netflow/chart?category={}&range=90d'
 
 
 def get(path, tries=4):
@@ -146,6 +150,28 @@ def update_coin(coin, old, now_ms):
     return {'hourly': out, 'oi_daily': daily, 'liq_cursor': new_cursor, 'liq_from': liq_from, 'liq_gaps': gaps}
 
 
+def etf_days(coin):
+    """The last 90 days of one coin's US spot ETF net flows, in USD, one row per US trading day (UTC date)."""
+    req = urllib.request.Request(ETF_URL.format(coin.lower()), headers={'User-Agent': 'crypto-pocket-data/1.0', 'Accept': 'application/json'})
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                body = json.load(r)
+            break
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
+            if attempt == 2:
+                raise RuntimeError(f'CoinMarketCap ETF {coin}: {e}') from e
+            time.sleep(3 * (attempt + 1))
+    days = {}
+    for p in ((body.get('data') or {}).get('points') or []):
+        ts, flow = num(p.get('timestamp')), num(p.get('value'))
+        if ts is not None and flow is not None:
+            days[datetime.datetime.fromtimestamp(ts / 1000, datetime.timezone.utc).strftime('%Y-%m-%d')] = round(flow)
+    if len(days) < 20:
+        raise RuntimeError(f'CoinMarketCap ETF {coin}: only {len(days)} days in the answer')
+    return [{'date': d, 'net_flow_usd': days[d]} for d in sorted(days)]
+
+
 def main():
     path = sys.argv[1]
     try:
@@ -164,12 +190,21 @@ def main():
             print(f'warning: {coin} not updated: {e}', file=sys.stderr)
     if len(failed) == len(COINS):
         sys.exit('no coin could be updated:\n' + '\n'.join(failed))
+    stamp = datetime.datetime.fromtimestamp(now_ms / 1000, datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    etf = data.get('etf', {}).get('coins', {})
+    for coin in COINS:
+        try:
+            etf[coin] = {'updated': stamp, 'days': etf_days(coin)}
+        except Exception as e:                      # keep this coin's previous ETF days
+            failed.append(f'ETF {coin}: {e}')
+            print(f'warning: ETF flows for {coin} not updated: {e}', file=sys.stderr)
     data = {
-        'updated': datetime.datetime.fromtimestamp(now_ms / 1000, datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'updated': stamp,
         'source': 'OKX public API (spot candles, contract statistics, USDT-margined swap liquidations)',
         'hours': KEEP_HOURS,
         'failed': failed,
         'coins': coins,
+        'etf': {'source': 'CoinMarketCap data API, US spot ETF daily net flows', 'coins': etf},
     }
     tmp = path + '.tmp'
     with open(tmp, 'w', encoding='utf-8') as f:
@@ -178,7 +213,9 @@ def main():
     for coin in COINS:
         c = coins.get(coin, {})
         h = c.get('hourly', [])
-        print(f"{coin}: {len(h)} hours, {sum(1 for r in h if 'liq_long' in r)} with liquidations, {len(c.get('oi_daily', []))} days of OI")
+        e = etf.get(coin, {}).get('days', [])
+        print(f"{coin}: {len(h)} hours, {sum(1 for r in h if 'liq_long' in r)} with liquidations, {len(c.get('oi_daily', []))} days of OI, "
+              f"{len(e)} days of ETF flows up to {e[-1]['date'] if e else '-'}")
 
 
 if __name__ == '__main__':
