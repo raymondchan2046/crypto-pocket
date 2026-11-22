@@ -24,9 +24,9 @@ On a phone, choose "Add to Home Screen" in the browser menu to open it full scre
 | Hourly leverage and flow chart, OKX open-interest history | OKX statistics, collected by this repository's job (see below) |
 | Spot ETF daily net flows | CoinMarketCap, collected by the same job, because CoinMarketCap does not let a web page read it |
 
-Every section is labelled with its time. If a source cannot be reached, that section falls back to a **snapshot** stored inside `index.html`, taken on 18 November 2026 (Hong Kong time), and its label says 快照 (snapshot).
+Every section is labelled with its time. If a source cannot be reached, that section falls back to a **snapshot** stored inside `index.html`, taken on 22 November 2026 (Hong Kong time), and its label says 快照 (snapshot).
 
-Opening the 衍生品 tab downloads about 2 MB (CoinGecko's full derivatives list) and pages through a day of OKX liquidation orders, so it takes longer than the other tabs.
+Opening the 衍生品 tab reads the first two pages of CoinGecko's derivatives list (500 contracts, busiest first, which hold more than 99% of these coins' open interest on the ten exchanges) and pages through a day of OKX liquidation orders, so it takes longer than the other tabs.
 
 ## Meanings and readings
 
